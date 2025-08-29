@@ -8,6 +8,8 @@ Cruzamos los dedos porque todo salga bien 🤞.
 ## 🌟 Miembros del Equipo
 - Martínez Montemayor Karen Patricia - [Linkedin](https://www.linkedin.com/in/karen-patricia-martinez-montemayor-92b43828a/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app)
 - Pech Herrera Moises Isaac - [Linkedin](https://www.linkedin.com/in/moises-isaac-pech-herrera-994946206/)
+
+<img src="/Equipo/KarinaPuch.jpg" width="200">
 - Puch Rodríguez Karina Gabriela - [Linkedin](https://www.linkedin.com/in/karina-gabriela-puch-rodr%C3%ADguez-74922728a)
 
   <img src="/Equipo/JesusTec.jpg" width="200">
