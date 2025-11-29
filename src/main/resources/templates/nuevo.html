@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nueva Calificación</title>
+    <link rel="stylesheet" th:href="@{/estilos.css}">
+</head>
+<body class="contenedor margen-arriba">
+
+<h1>Añadir Nueva Calificación</h1>
+<hr>
+
+<form th:action="@{/guardar}" method="post" th:object="${calif}">
+
+    <input type="hidden" th:field="*{id}" />
+
+    <div class="grupo-formulario">
+        <label for="nombre" class="etiqueta">Nombre del Alumno:</label>
+        <input type="text" class="campo-texto" id="nombre" th:field="*{nombre}">
+
+        <div class="texto-error"
+             th:if="${#fields.hasErrors('nombre')}"
+             th:errors="*{nombre}">
+        </div>
+    </div>
+
+    <div class="grupo-formulario">
+        <label for="calificacion" class="etiqueta">Calificación:</label>
+        <input type="number" step="0.1" class="campo-texto" id="calificacion" th:field="*{calificacion}">
+
+        <div class="texto-error"
+             th:if="${#fields.hasErrors('calificacion')}"
+             th:errors="*{calificacion}">
+        </div>
+    </div>
+
+    <button type="submit" class="boton boton-primario">Guardar</button>
+
+    <a th:href="@{/}" class="boton boton-secundario">Cancelar</a>
+
+</form>
+
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Control de Calificaciones</title>
+    <link rel="stylesheet" th:href="@{/estilos.css}">
+</head>
+<body class="contenedor margen-arriba">
+
+<h1>Calificaciones</h1>
+<hr>
+
+<form th:action="@{/}" method="get" class="grupo-input margen-abajo">
+    <input type="text" name="palabraClave" class="campo-texto" placeholder="Buscar por nombre..." th:value="${palabraClave}">
+    <button type="submit" class="boton boton-info">Buscar</button>
+    <a th:href="@{/}" class="boton boton-secundario">Limpiar</a>
+</form>
+
+<form th:action="@{/borrar-seleccionados}" method="post" id="formularioBorrar">
+
+    <div class="margen-abajo grupo-botones">
+        <a th:href="@{/nuevo}" class="boton boton-primario">Añadir Nueva</a>
+        <button type="button" id="btnBorrarMasivo" class="boton boton-borrar">Borrar Seleccionados</button>
+    </div>
+
+    <div th:if="${!listaCal.isEmpty()}">
+        <table class="tabla tabla-rayada">
+            <thead>
+            <tr>
+                <th class="centro">
+                    <input type="checkbox" id="seleccionarTodo">
+                </th>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Calificación</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="calif : ${listaCal}">
+                <td class="centro">
+                    <input type="checkbox" class="checkboxFila" name="ids" th:value="${calif.id}">
+                </td>
+                <td th:text="${calif.id}">1</td>
+                <td th:text="${calif.nombre}">Juan</td>
+                <td th:text="${calif.calificacion}">100</td>
+                <td>
+                    <a th:href="@{/editar/{id}(id=${calif.id})}" class="boton boton-advertencia boton-chico">Editar</a>
+
+                    <button type="button" class="boton boton-borrar boton-chico btnAbrirModal"
+                            th:data-id="${calif.id}">
+                        Borrar
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${listaCal.isEmpty()}">
+        <div class="alerta alerta-info">
+            No hay calificaciones registradas todavía.
+        </div>
+    </div>
+
+</form>
+
+<div id="miVentanaModal" class="modal-fondo">
+    <div class="modal-caja">
+        <div class="modal-cabecera">
+            <span>Confirmar Borrado</span>
+            <span class="btn-cerrar-x" id="btnX">&times;</span>
+        </div>
+        <div class="modal-cuerpo">
+            ¿Estás seguro de que quieres borrar?
+        </div>
+        <div class="modal-pie">
+            <button type="button" class="boton boton-secundario" id="btnCancelarModal">Cancelar</button>
+            <a href="" class="boton boton-borrar" id="btnSiBorrar">Sí, Borrar</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        var modal = document.getElementById("miVentanaModal");
+        var btnSiBorrar = document.getElementById("btnSiBorrar");
+        var formBorrar = document.getElementById("formularioBorrar");
+
+        function cerrarModal() { modal.style.display = "none"; }
+
+        document.getElementById("btnX").onclick = cerrarModal;
+        document.getElementById("btnCancelarModal").onclick = cerrarModal;
+
+        window.onclick = function(event) {
+            if (event.target == modal) { cerrarModal(); }
+        }
+
+        var botonesFila = document.querySelectorAll(".btnAbrirModal");
+        botonesFila.forEach(function(btn) {
+            btn.addEventListener("click", function() {
+                var id = this.getAttribute("data-id");
+
+                btnSiBorrar.onclick = null;
+                btnSiBorrar.setAttribute("href", "/borrar/" + id);
+
+                modal.style.display = "block";
+            });
+        });
+
+        var btnMasivo = document.getElementById("btnBorrarMasivo");
+        btnMasivo.addEventListener("click", function() {
+            var seleccionados = document.querySelectorAll(".checkboxFila:checked").length;
+
+            if (seleccionados === 0) {
+                alert("No has seleccionado nada para borrar.");
+            } else {
+                btnSiBorrar.removeAttribute("href");
+                btnSiBorrar.onclick = function() { formBorrar.submit(); };
+
+                modal.style.display = "block";
+            }
+        });
+
+        var selectAll = document.getElementById("seleccionarTodo");
+        var checkboxes = document.querySelectorAll(".checkboxFila");
+
+        if(selectAll){
+            selectAll.onclick = function() {
+                checkboxes.forEach(function(cb) { cb.checked = selectAll.checked; });
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
